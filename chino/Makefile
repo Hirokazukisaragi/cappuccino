@@ -1,10 +1,10 @@
 CC=gcc
 CFLAGS=-std=c99 -Wall
-chino:main.o immcode.h
-	$(CC) $(DBGF) main.o -o chino $(CFLAGS)
+all:main.o immcode.h
+	$(CC) $(CFLAGS) main.o -o chino
 main.o:main.cpp immcode.h
-	$(CC) -c $(DBGF) main.cpp $(CFLAGS)
+	$(CC) -c $(CFLAGS) main.cpp
 install:chino
-	cp chino /usr/local/bin
+	cp chino /usr/local/bin/chino
 uninstall:
-	rm /usr/local/bin
+	rm /usr/local/bin/chino

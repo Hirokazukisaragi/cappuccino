@@ -1,0 +1,4 @@
+print "hello!!"
+let A 221
+print A
+print "bye!!"
