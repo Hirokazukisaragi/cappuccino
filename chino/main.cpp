@@ -43,16 +43,9 @@ void endgine(void)
             if(feof(src)){
                 break;
             }
-            //printf("next:%c\n",command[commc]);
             //ungetc(command[commc],src);
         }
-        /*
-        if((command[commc] != ' ') || (command[commc] != '\n') ){
-            printf("unget:%c:\n",command[commc]);
-            ungetc(command[commc],src);
-            command[commc] = '\0';
-        }
-        */
+        
         command[commc] = '\0';
         if(!strcmp(command,"print")){
             //ungetc(command[commc],src);
@@ -61,11 +54,6 @@ void endgine(void)
         if(!strcmp(command,"let")){
             value_system();
         }
-        /*
-        if(!feof(src)){
-            contflag = 0;
-        }
-        */
         command[0] = '\0';
         commc = 0;
     }
@@ -89,6 +77,14 @@ void value_system()
     while((ch == ' ') || (ch == '\t')) {
         ch = getc(src);
     }
+    if(ch == '='){
+        ch = getc(src);
+    }else{
+        printf("syntax error!\n");
+    }
+    while((ch == ' ')){
+        ch = getc(src);
+    }
     num = ch - '0';
     ch = getc(src);
     while((ch >= '0') && (ch <= '9')){
@@ -106,25 +102,15 @@ void Printer(void)
     int vindex;
     char first = TRUE;
     ch = getc(src);
-    int loopcounter = 0;
-    //printf("ap=%c:",ch);
     char stringflag = FALSE;
      while((ch == ' ') || (ch == '\t') || (ch == '\n')){
         ch = getc(src);
-       // printf("skip = %c",ch);
     }
     if(ch == '\"'){
         stringflag = TRUE;
     }
-    //ch = getc(src);
-    //printf("askip=%c:",ch);
     //変数でないかつクォートが出るまで
     while(stringflag){
-        /*
-        while(ch == ' '){
-            ch = getc(src);
-        }
-        */
         if((ch == '\"')){
             if(first){
                 ch = getc(src);
@@ -141,11 +127,8 @@ void Printer(void)
         printf("%c",ch);
 
         ch = getc(src);
-        //printf("loop %d done.",loopcounter);
-        loopcounter++;
         first = FALSE;
-    }
-    //ch = getc(src);
+    };
     if((ch >= 'A') && (ch <= 'Z')){
         vindex = ch - 'A';;
         printf("val = :%d:\n",Value[vindex]);
